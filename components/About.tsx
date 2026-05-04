@@ -2,21 +2,17 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-
-const credentials = [
-  "Industrial Engineering — Concordia University",
-  "25+ Years Industry Experience",
-  "Bilingual — English & French",
-  "Available Part-Time or Full-Time",
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const vp = { once: true, margin: "-60px" } as const;
 
 export default function About() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="py-28 lg:py-36 border-b border-[rgba(255,255,255,0.06)]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        {/* Left — photo placeholder */}
+        {/* Left — photo */}
         <motion.div
           className="relative"
           initial={{ opacity: 0, x: -24 }}
@@ -41,7 +37,7 @@ export default function About() {
           {/* Gold tag */}
           <div className="absolute -bottom-4 left-6 bg-bg-primary border border-[rgba(201,169,110,0.3)] px-4 py-2">
             <p className="font-dm text-[0.62rem] tracking-[0.16em] uppercase text-gold">
-              Diane — Principal Consultant
+              {t.about.tag}
             </p>
           </div>
 
@@ -58,7 +54,7 @@ export default function About() {
             viewport={vp}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            About
+            {t.about.eyebrow}
           </motion.p>
 
           <motion.h2
@@ -68,15 +64,11 @@ export default function About() {
             viewport={vp}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
           >
-            Engineering Background. Executive Results.
+            {t.about.heading}
           </motion.h2>
 
           <div className="space-y-5 mb-10">
-            {[
-              "Diane holds a degree in Industrial Engineering from Concordia University and has spent over 25 years working at the intersection of procurement, contract management, and large-scale industrial logistics.",
-              "Throughout her career, she has overseen projects reaching up to $4 billion in total value — coordinating multi-party contracts, managing supplier relationships, and ensuring operational precision at every stage.",
-              "Diane works directly with clients as a hands-on consultant, available on a part-time or full-time basis. She delivers in both English and French, serving clients across Canada and beyond.",
-            ].map((para, i) => (
+            {t.about.paragraphs.map((para, i) => (
               <motion.p
                 key={i}
                 className="font-dm text-sm text-text-secondary leading-relaxed"
@@ -98,7 +90,7 @@ export default function About() {
             viewport={vp}
             transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
           >
-            {credentials.map((item) => (
+            {t.about.credentials.map((item) => (
               <li key={item} className="flex items-center gap-3">
                 <span className="text-gold font-cormorant text-lg leading-none select-none">—</span>
                 <span className="font-dm text-sm text-text-secondary">{item}</span>

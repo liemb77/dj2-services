@@ -3,22 +3,24 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-
-const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { lang, setLang, t } = useLanguage();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  const navLinks = [
+    { label: t.nav.services, href: "#services" },
+    { label: t.nav.about, href: "#about" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
 
   return (
     <motion.header
@@ -50,16 +52,20 @@ export default function Navbar() {
             </a>
           ))}
 
-          {/* Language toggle placeholder */}
-          <button className="font-dm text-[0.68rem] tracking-[0.18em] uppercase text-text-muted hover:text-gold transition-colors duration-200 border-l border-[rgba(255,255,255,0.1)] pl-6">
-            FR
+          {/* Language toggle */}
+          <button
+            onClick={() => setLang(lang === "en" ? "fr" : "en")}
+            className="font-dm text-[0.68rem] tracking-[0.18em] uppercase text-gold hover:text-text-primary transition-colors duration-200 border-l border-[rgba(255,255,255,0.1)] pl-6"
+            aria-label={lang === "en" ? "Switch to French" : "Switch to English"}
+          >
+            {lang === "en" ? "FR" : "EN"}
           </button>
 
           <a
             href="#contact"
             className="font-dm text-[0.68rem] tracking-[0.14em] uppercase px-5 py-2 border border-gold text-gold hover:bg-gold hover:text-bg-primary transition-all duration-300"
           >
-            Request a Consultation
+            {t.nav.cta}
           </a>
         </div>
 
@@ -110,8 +116,11 @@ export default function Navbar() {
                 </a>
               ))}
               <div className="flex items-center gap-4 pt-2 border-t border-[rgba(255,255,255,0.06)]">
-                <button className="font-dm text-xs tracking-[0.16em] uppercase text-text-muted hover:text-gold transition-colors">
-                  FR
+                <button
+                  onClick={() => setLang(lang === "en" ? "fr" : "en")}
+                  className="font-dm text-xs tracking-[0.16em] uppercase text-gold hover:text-text-primary transition-colors"
+                >
+                  {lang === "en" ? "FR" : "EN"}
                 </button>
               </div>
               <a
@@ -119,7 +128,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="font-dm text-[0.68rem] tracking-[0.14em] uppercase px-5 py-3 border border-gold text-gold text-center hover:bg-gold hover:text-bg-primary transition-all duration-300"
               >
-                Request a Consultation
+                {t.nav.cta}
               </a>
             </div>
           </motion.div>

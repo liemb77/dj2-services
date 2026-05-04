@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type FormData = {
   fullName: string;
@@ -31,6 +32,8 @@ const labelClass = "block font-dm text-[0.65rem] tracking-[0.14em] uppercase tex
 export default function ContactForm() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [submitted, setSubmitted] = useState(false);
+  const { t } = useLanguage();
+  const f = t.contact.form;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -43,6 +46,13 @@ export default function ContactForm() {
     setSubmitted(true);
   };
 
+  const contactItems = [
+    { key: "email", value: "diane.derome@gmail.com", href: "mailto:diane.derome@gmail.com" },
+    { key: "phone", value: "514-949-1788", href: "tel:+15149491788" },
+    { key: "location", value: t.contact.values.location },
+    { key: "hours", value: t.contact.values.hours },
+  ] as const;
+
   return (
     <section id="contact" className="py-28 lg:py-36 border-b border-[rgba(255,255,255,0.06)]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-16 lg:gap-24">
@@ -53,40 +63,21 @@ export default function ContactForm() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <p className="eyebrow mb-4">Get in Touch</p>
+          <p className="eyebrow mb-4">{t.contact.eyebrow}</p>
           <h2 className="font-cormorant text-4xl md:text-5xl font-light text-text-primary mb-6 leading-tight">
-            Let&apos;s Discuss Your Project
+            {t.contact.heading}
           </h2>
           <p className="font-dm text-sm text-text-secondary leading-relaxed mb-10">
-            Fill out the form and Diane will follow up to determine if your project is a fit. Available Monday to Friday, 8:00 AM – 5:00 PM.
+            {t.contact.subheading}
           </p>
 
           <ul className="space-y-5">
-            {[
-              {
-                label: "Email",
-                value: "diane.derome@gmail.com",
-                href: "mailto:diane.derome@gmail.com",
-              },
-              {
-                label: "Phone",
-                value: "514-949-1788",
-                href: "tel:+15149491788",
-              },
-              {
-                label: "Location",
-                value: "Remote — Québec, Canada",
-              },
-              {
-                label: "Hours",
-                value: "Mon–Fri, 8:00 AM – 5:00 PM (No weekends, no holidays)",
-              },
-            ].map((item) => (
-              <li key={item.label} className="flex flex-col gap-1">
+            {contactItems.map((item) => (
+              <li key={item.key} className="flex flex-col gap-1">
                 <span className="font-dm text-[0.62rem] tracking-[0.16em] uppercase text-gold">
-                  {item.label}
+                  {t.contact.labels[item.key]}
                 </span>
-                {item.href ? (
+                {"href" in item ? (
                   <a
                     href={item.href}
                     className="font-dm text-sm text-text-secondary hover:text-text-primary transition-colors"
@@ -118,23 +109,22 @@ export default function ContactForm() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
               >
-                {/* Checkmark */}
                 <div className="w-14 h-14 rounded-full border border-gold flex items-center justify-center mb-6">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" strokeWidth="1.5">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>
                 <h3 className="font-cormorant text-3xl font-light text-text-primary mb-3">
-                  Inquiry Received
+                  {t.contact.success.heading}
                 </h3>
                 <p className="font-dm text-sm text-text-secondary leading-relaxed max-w-sm">
-                  Thank you for reaching out. Diane will review your inquiry and follow up within 1–2 business days.
+                  {t.contact.success.body}
                 </p>
                 <button
                   onClick={() => { setSubmitted(false); setForm(initialForm); }}
                   className="mt-8 font-dm text-[0.68rem] tracking-[0.14em] uppercase text-gold hover:text-text-primary transition-colors"
                 >
-                  Submit another inquiry
+                  {t.contact.success.reset}
                 </button>
               </motion.div>
             ) : (
@@ -147,27 +137,20 @@ export default function ContactForm() {
               >
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="fullName" className={labelClass}>Full Name *</label>
+                    <label htmlFor="fullName" className={labelClass}>{f.fullName} *</label>
                     <input
-                      id="fullName"
-                      name="fullName"
-                      type="text"
-                      required
-                      value={form.fullName}
-                      onChange={handleChange}
-                      placeholder="Jane Smith"
+                      id="fullName" name="fullName" type="text" required
+                      value={form.fullName} onChange={handleChange}
+                      placeholder={f.placeholders.fullName}
                       className={inputClass}
                     />
                   </div>
                   <div>
-                    <label htmlFor="companyName" className={labelClass}>Company Name</label>
+                    <label htmlFor="companyName" className={labelClass}>{f.companyName}</label>
                     <input
-                      id="companyName"
-                      name="companyName"
-                      type="text"
-                      value={form.companyName}
-                      onChange={handleChange}
-                      placeholder="Acme Corp"
+                      id="companyName" name="companyName" type="text"
+                      value={form.companyName} onChange={handleChange}
+                      placeholder={f.placeholders.companyName}
                       className={inputClass}
                     />
                   </div>
@@ -175,27 +158,20 @@ export default function ContactForm() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="email" className={labelClass}>Email Address *</label>
+                    <label htmlFor="email" className={labelClass}>{f.email} *</label>
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="jane@company.com"
+                      id="email" name="email" type="email" required
+                      value={form.email} onChange={handleChange}
+                      placeholder={f.placeholders.email}
                       className={inputClass}
                     />
                   </div>
                   <div>
-                    <label htmlFor="phone" className={labelClass}>Phone Number</label>
+                    <label htmlFor="phone" className={labelClass}>{f.phone}</label>
                     <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={form.phone}
-                      onChange={handleChange}
-                      placeholder="514-000-0000"
+                      id="phone" name="phone" type="tel"
+                      value={form.phone} onChange={handleChange}
+                      placeholder={f.placeholders.phone}
                       className={inputClass}
                     />
                   </div>
@@ -203,49 +179,39 @@ export default function ContactForm() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="projectType" className={labelClass}>Project Type *</label>
+                    <label htmlFor="projectType" className={labelClass}>{f.projectType} *</label>
                     <select
-                      id="projectType"
-                      name="projectType"
-                      required
-                      value={form.projectType}
-                      onChange={handleChange}
+                      id="projectType" name="projectType" required
+                      value={form.projectType} onChange={handleChange}
                       className={`${inputClass} appearance-none`}
                     >
-                      <option value="" disabled>Select type</option>
-                      <option value="procurement">Procurement</option>
-                      <option value="contract">Contract Management</option>
-                      <option value="logistics">Logistics</option>
-                      <option value="other">Other</option>
+                      <option value="" disabled>{f.placeholders.selectType}</option>
+                      {f.projectTypes.map((opt) => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="engagementType" className={labelClass}>Engagement Type *</label>
+                    <label htmlFor="engagementType" className={labelClass}>{f.engagementType} *</label>
                     <select
-                      id="engagementType"
-                      name="engagementType"
-                      required
-                      value={form.engagementType}
-                      onChange={handleChange}
+                      id="engagementType" name="engagementType" required
+                      value={form.engagementType} onChange={handleChange}
                       className={`${inputClass} appearance-none`}
                     >
-                      <option value="" disabled>Select type</option>
-                      <option value="part-time">Part-Time</option>
-                      <option value="full-time">Full-Time</option>
+                      <option value="" disabled>{f.placeholders.selectType}</option>
+                      {f.engagementTypes.map((opt) => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="projectDescription" className={labelClass}>Project Description *</label>
+                  <label htmlFor="projectDescription" className={labelClass}>{f.projectDescription} *</label>
                   <textarea
-                    id="projectDescription"
-                    name="projectDescription"
-                    required
-                    rows={5}
-                    value={form.projectDescription}
-                    onChange={handleChange}
-                    placeholder="Briefly describe your project, timeline, and any key requirements..."
+                    id="projectDescription" name="projectDescription" required rows={5}
+                    value={form.projectDescription} onChange={handleChange}
+                    placeholder={f.placeholders.projectDescription}
                     className={`${inputClass} resize-none`}
                   />
                 </div>
@@ -255,11 +221,9 @@ export default function ContactForm() {
                     type="submit"
                     className="w-full font-dm text-[0.72rem] tracking-[0.14em] uppercase py-4 bg-gold text-bg-primary hover:bg-[#b8935a] transition-colors duration-300"
                   >
-                    Send Inquiry
+                    {f.submit}
                   </button>
-                  <p className="font-dm text-xs text-text-muted mt-3 text-center">
-                    This form is for project inquiries only — not for booking a call directly.
-                  </p>
+                  <p className="font-dm text-xs text-text-muted mt-3 text-center">{f.note}</p>
                 </div>
               </motion.form>
             )}

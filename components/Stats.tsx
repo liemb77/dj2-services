@@ -2,18 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-interface Stat {
-  prefix?: string;
-  value: number;
-  suffix: string;
-  label: string;
-}
-
-const stats: Stat[] = [
-  { value: 25, suffix: "+", label: "Years of Experience" },
-  { prefix: "$", value: 4, suffix: "B", label: "Largest Project Managed" },
-  { value: 20, suffix: "+", label: "Projects Delivered" },
+const statData = [
+  { value: 25, suffix: "+", key: "years" as const },
+  { prefix: "$", value: 4, suffix: "B", key: "project" as const },
+  { value: 20, suffix: "+", key: "delivered" as const },
 ];
 
 function CountUp({ target, prefix = "", suffix = "" }: { target: number; prefix?: string; suffix?: string }) {
@@ -52,15 +46,16 @@ function CountUp({ target, prefix = "", suffix = "" }: { target: number; prefix?
 export default function Stats() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const { t } = useLanguage();
 
   return (
     <motion.div
       ref={ref}
       className="grid grid-cols-2 gap-px border border-[rgba(201,169,110,0.2)]"
     >
-      {stats.map((stat, i) => (
+      {statData.map((stat, i) => (
         <motion.div
-          key={stat.label}
+          key={stat.key}
           className="bg-bg-card p-6 lg:p-8"
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -70,7 +65,7 @@ export default function Stats() {
             <CountUp target={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
           </div>
           <div className="font-dm text-[0.65rem] tracking-[0.14em] uppercase text-text-muted">
-            {stat.label}
+            {t.stats[stat.key]}
           </div>
         </motion.div>
       ))}
@@ -83,7 +78,7 @@ export default function Stats() {
         transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
       >
         <div className="font-dm text-[0.65rem] tracking-[0.14em] uppercase text-text-muted mb-3">
-          Sectors
+          {t.stats.sectors}
         </div>
         <ul className="space-y-1.5">
           {["Mining", "Industrial", "Oil & Gas"].map((sector) => (

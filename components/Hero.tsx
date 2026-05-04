@@ -2,12 +2,11 @@
 
 import { motion } from "framer-motion";
 import Stats from "@/components/Stats";
-
-const headline = "Specialist Procurement Management for Complex Mining & Industrial Projects".split(" ");
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.3 } },
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.3 } },
 };
 
 const wordVariants = {
@@ -20,6 +19,9 @@ const wordVariants = {
 };
 
 export default function Hero() {
+  const { t } = useLanguage();
+  const headline = t.hero.headline.split(" ");
+
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
       {/* Background grid */}
@@ -43,10 +45,11 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           >
-            Procurement · Contract Management · Logistics · Claim Settlement
+            {t.hero.eyebrow}
           </motion.p>
 
           <motion.h1
+            key={t.hero.headline}
             className="font-cormorant text-5xl md:text-6xl lg:text-7xl font-light leading-[1.05] text-text-primary mb-8"
             variants={containerVariants}
             initial="hidden"
@@ -65,7 +68,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.0, ease: "easeOut" }}
           >
-            25+ years of procurement services on major construction projects. English and French consulting for part-time and full-time engagements.
+            {t.hero.subheading}
           </motion.p>
 
           <motion.div
@@ -78,13 +81,13 @@ export default function Hero() {
               href="#contact"
               className="font-dm text-[0.72rem] tracking-[0.14em] uppercase px-7 py-3.5 bg-gold text-bg-primary hover:bg-[#b8935a] transition-colors duration-300"
             >
-              Start a Project
+              {t.hero.cta1}
             </a>
             <a
               href="#services"
               className="font-dm text-[0.72rem] tracking-[0.14em] uppercase px-7 py-3.5 text-text-secondary hover:text-gold transition-colors duration-300 flex items-center gap-2"
             >
-              View Services →
+              {t.hero.cta2}
             </a>
           </motion.div>
         </div>
