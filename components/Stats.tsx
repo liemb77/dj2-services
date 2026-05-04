@@ -14,7 +14,6 @@ const stats: Stat[] = [
   { value: 25, suffix: "+", label: "Years of Experience" },
   { prefix: "$", value: 4, suffix: "B", label: "Largest Project Managed" },
   { value: 20, suffix: "+", label: "Projects Delivered" },
-  { prefix: "$", value: 250, suffix: "/hr", label: "Billing Rate" },
 ];
 
 function CountUp({ target, prefix = "", suffix = "" }: { target: number; prefix?: string; suffix?: string }) {
@@ -75,6 +74,26 @@ export default function Stats() {
           </div>
         </motion.div>
       ))}
+
+      {/* Sectors box */}
+      <motion.div
+        className="bg-bg-card p-6 lg:p-8"
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+      >
+        <div className="font-dm text-[0.65rem] tracking-[0.14em] uppercase text-text-muted mb-3">
+          Sectors
+        </div>
+        <ul className="space-y-1.5">
+          {["Mining", "Industrial", "Oil & Gas"].map((sector) => (
+            <li key={sector} className="flex items-center gap-2">
+              <span className="text-gold font-cormorant text-base leading-none">—</span>
+              <span className="font-cormorant text-xl font-light text-gold">{sector}</span>
+            </li>
+          ))}
+        </ul>
+      </motion.div>
     </motion.div>
   );
 }

@@ -75,7 +75,7 @@ export default function About() {
             {[
               "Diane holds a degree in Industrial Engineering from Concordia University and has spent over 25 years working at the intersection of procurement, contract management, and large-scale industrial logistics.",
               "Throughout her career, she has overseen projects reaching up to $4 billion in total value — coordinating multi-party contracts, managing supplier relationships, and ensuring operational precision at every stage.",
-              "Diane works directly with clients as a hands-on consultant, available on a part-time or full-time basis. She delivers in both English and French, serving clients across Québec and beyond.",
+              "Diane works directly with clients as a hands-on consultant, available on a part-time or full-time basis. She delivers in both English and French, serving clients across Canada and beyond.",
             ].map((para, i) => (
               <motion.p
                 key={i}

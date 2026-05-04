@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Stats from "@/components/Stats";
 
-const headline = "Precision Project Management for Complex Operations".split(" ");
+const headline = "Specialist Procurement Management for Complex Mining & Industrial Projects".split(" ");
 
 const containerVariants = {
   hidden: {},
@@ -43,7 +43,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           >
-            Industrial Engineering · Procurement · Contract Management
+            Procurement · Contract Management · Logistics · Claim Settlement
           </motion.p>
 
           <motion.h1
@@ -65,7 +65,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.0, ease: "easeOut" }}
           >
-            25+ years of industrial engineering expertise. Bilingual consulting in English and French. Available for part-time and full-time project engagements.
+            25+ years of procurement services on major construction projects. English and French consulting for part-time and full-time engagements.
           </motion.p>
 
           <motion.div
