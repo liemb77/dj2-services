@@ -49,7 +49,6 @@ export default function Hero() {
           </motion.p>
 
           <motion.h1
-            key={t.hero.headline}
             className="font-cormorant text-5xl md:text-6xl lg:text-7xl font-light leading-[1.05] text-text-primary mb-8"
             variants={containerVariants}
             initial="hidden"
