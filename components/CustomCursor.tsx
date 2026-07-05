@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
+  const [mounted, setMounted] = useState(false);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);
 
@@ -17,6 +19,11 @@ export default function CustomCursor() {
   const dotY = useSpring(rawY, springConfig);
   const ringX = useSpring(rawX, ringSpring);
   const ringY = useSpring(rawY, ringSpring);
+
+  useEffect(() => {
+    setMounted(true);
+    setIsCoarsePointer(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
@@ -44,7 +51,7 @@ export default function CustomCursor() {
     };
   }, [rawX, rawY, visible]);
 
-  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+  if (!mounted || isCoarsePointer) {
     return null;
   }
 
