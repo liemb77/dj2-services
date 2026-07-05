@@ -32,6 +32,8 @@ const labelClass = "block font-dm text-[0.65rem] tracking-[0.14em] uppercase tex
 export default function ContactForm() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
   const { t } = useLanguage();
   const f = t.contact.form;
 
@@ -41,9 +43,24 @@ export default function ContactForm() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    setError(false);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      setSubmitted(true);
+    } catch {
+      setError(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const contactItems = [
@@ -217,11 +234,17 @@ export default function ContactForm() {
                 </div>
 
                 <div>
+                  {error && (
+                    <p className="font-dm text-xs text-red-400 mb-3 text-center" role="alert">
+                      {t.contact.error.body}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    className="w-full font-dm text-[0.72rem] tracking-[0.14em] uppercase py-4 bg-gold text-bg-primary hover:bg-[#b8935a] transition-colors duration-300"
+                    disabled={submitting}
+                    className="w-full font-dm text-[0.72rem] tracking-[0.14em] uppercase py-4 bg-gold text-bg-primary hover:bg-[#b8935a] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    {f.submit}
+                    {submitting ? t.contact.submitting : f.submit}
                   </button>
                   <p className="font-dm text-xs text-text-muted mt-3 text-center">{f.note}</p>
                 </div>

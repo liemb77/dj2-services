@@ -113,6 +113,10 @@ const translations = {
         body: "Thank you for reaching out. Diane will review your inquiry and follow up within 1–2 business days.",
         reset: "Submit another inquiry",
       },
+      error: {
+        body: "Something went wrong sending your inquiry. Please try again, or email directly at diane.derome@gmail.com.",
+      },
+      submitting: "Sending...",
     },
     footer: {
       rights: "All rights reserved",
@@ -229,6 +233,10 @@ const translations = {
         body: "Merci de nous avoir contactés. Diane examinera votre demande et vous répondra dans un délai de 1 à 2 jours ouvrables.",
         reset: "Soumettre une autre demande",
       },
+      error: {
+        body: "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer ou écrire directement à diane.derome@gmail.com.",
+      },
+      submitting: "Envoi en cours...",
     },
     footer: {
       rights: "Tous droits réservés",
